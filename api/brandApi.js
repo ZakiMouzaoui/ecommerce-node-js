@@ -5,6 +5,8 @@ const {
   addBrand,
   updateBrand,
   deleteBrand,
+  uploadBrandImage,
+  resizeImage
 } = require("../services/brandService");
 
 const { protect, allowedTo } = require("./../services/authService");
