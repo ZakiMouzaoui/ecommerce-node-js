@@ -1,7 +1,9 @@
 // IMPORTS FROM PACKAGES
 const express = require("express");
 const env = require("dotenv");
-const morgan = require("morgan");
+const path = require("path");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
 
 // IMPORTS FROM LOCAL FILES
 const databaseConn = require("./config/database");
@@ -29,7 +31,32 @@ process.on("uncaughtException", (err) => {
 const app = express();
 
 // MIDDLEWARES
-app.use(express.json());
+app.use(express.json({ limit: "20kb" }));
+app.use(express.static(path.join(__dirname, "uploads")));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: "Too many requests, please try again in 15 minutes",
+});
+// Apply the rate limiting middleware to all requests
+app.use("/api/v1/auth", limiter);
+
+// TO PREVENT HTTP POLLUTION
+app.use(
+  hpp({
+    whitelist: [
+      "price",
+      "sold",
+      "quantity",
+      "avgRating",
+      "ratingsCount",
+      "brand",
+    ],
+  })
+);
 
 // MOUNT ROUTES
 mountRoutes(app);

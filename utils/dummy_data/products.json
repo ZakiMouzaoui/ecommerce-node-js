@@ -6,7 +6,7 @@
     "price": 799,
     "category": "63fe60e481013136dcaac613",
     "subcategories": ["63fe617581013136dcaac629"],
-    "coverImage": "https://example.com/samsung-galaxy-s21.jpg",
+    "imageCover": "https://example.com/samsung-galaxy-s21.jpg",
     "brand": "63ffe5e8be9dde8e40bb4445",
     "images": [
       "https://example.com/samsung-galaxy-s21.jpg",
@@ -24,7 +24,7 @@
     "category": "63fe60f981013136dcaac619",
     "subcategories": ["63fe61d681013136dcaac633"],
     "brand": "63ffec925871ef356739622e",
-    "coverImage": "https://example.com/instant-pot-duo60.jpg",
+    "imageCover": "https://example.com/instant-pot-duo60.jpg",
     "images": [
       "https://example.com/instant-pot-duo60.jpg",
       "https://example.com/instant-pot-duo60-back.jpg"
@@ -40,7 +40,7 @@
     "category": "63fe610381013136dcaac61b",
     "subcategories": ["63fe620e81013136dcaac637"],
     "brand": "63ffe8529ff7d8d271eaaf05",
-    "coverImage": "https://example.com/nike-air-zoom-pegasus-38.jpg",
+    "imageCover": "https://example.com/nike-air-zoom-pegasus-38.jpg",
     "images": [
       "https://example.com/nike-air-zoom-pegasus-38.jpg",
       "https://example.com/nike-air-zoom-pegasus-38-back.jpg"
@@ -56,7 +56,7 @@
     "category": "63fe611c81013136dcaac61f",
     "subcategories": ["63ffec0b6b5b6880d660dbf8"],
     "brand": "63ffec0b6b5b6880d660dbf8",
-    "coverImage": "https://example.com/nike-air-zoom-pegasus-38.jpg",
+    "imageCover": "https://example.com/nike-air-zoom-pegasus-38.jpg",
     "images": [
       "https://example.com/nike-air-zoom-pegasus-38.jpg",
       "https://example.com/nike-air-zoom-pegasus-38-back.jpg"
@@ -72,7 +72,7 @@
     "category": "63fe611181013136dcaac61d",
     "subcategories": ["63fe623181013136dcaac63b"],
     "brand": "63ffeb2f5a099d42311d6121",
-    "coverImage": "https://example.com/loreal-paris-revitalift-serum.jpg",
+    "imageCover": "https://example.com/loreal-paris-revitalift-serum.jpg",
     "images": [
       "https://example.com/loreal-paris-revitalift-serum.jpg",
       "https://example.com/loreal-paris-revitalift-serum-back.jpg"

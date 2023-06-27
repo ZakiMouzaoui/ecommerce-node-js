@@ -1,11 +1,31 @@
-const Category = require("../models/categoryModel");
-const slugify = require("slugify");
 const asyncHandler = require("express-async-handler");
-const ApiError = require("../utils/apiError");
 const subCategoryModel = require("../models/subCategoryModel");
 const factory = require("./handlerFactory");
 
-const getSubCategories = asyncHandler(async (req, res) => {
+const { v4: uuidv4 } = require('uuid');
+const {uploadSingleImage} = require("../middlewares/uploadImageMiddleware")
+const sharp = require("sharp")
+
+// UPLOAD SINGLE IMAGE
+exports.uploadSubCategoryImage = uploadSingleImage("image");
+
+// IMAGE RROCESSING
+exports.resizeImage = asyncHandler(async (req, res, next) => {
+  const filename = `subcategory-${uuidv4()}-${Date.now()}.jpeg`;
+
+  await sharp(req.file.buffer)
+    .resize(600, 600)
+    .toFormat('jpeg')
+    .jpeg({ quality: 95 })
+    .toFile(`uploads/subcategories/${filename}`);
+
+  // Save image into our db 
+   req.body.image = filename;
+
+  next();
+});
+
+exports.getSubCategories = asyncHandler(async (req, res) => {
   let page = req.query.page || 1;
   let limit = req.query.limit || 1;
   let skip = (page - 1) * limit;
@@ -21,18 +41,10 @@ const getSubCategories = asyncHandler(async (req, res) => {
   res.json({ results: subCategories.length, page: page, data: subCategories });
 });
 
-const getSubCategory = factory.getOne(subCategoryModel);
+exports.getSubCategory = factory.getOne(subCategoryModel);
 
-const addSubCategory = factory.addOne(subCategoryModel);
+exports.addSubCategory = factory.addOne(subCategoryModel);
 
-const updateSubCategory = factory.updateOne(subCategoryModel);
+exports.updateSubCategory = factory.updateOne(subCategoryModel);
 
-const deleteSubCategory = factory.deleteOne(subCategoryModel);
-
-module.exports = {
-  getSubCategories,
-  getSubCategory,
-  addSubCategory,
-  updateSubCategory,
-  deleteSubCategory,
-};
+exports.deleteSubCategory = factory.deleteOne(subCategoryModel);

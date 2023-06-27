@@ -17,11 +17,11 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(protect, getBrands)
-  .post(protect, allowedTo("admin", "manager"), applySlug, addBrand);
+  .get(getBrands)
+  .post(protect, allowedTo("admin", "manager"), uploadBrandImage, resizeImage, applySlug, addBrand);
 router
   .route("/:id")
-  .get(protect, getBrand)
+  .get(getBrand)
   .put(protect, allowedTo("admin", "manager"), applySlug, updateBrand)
   .delete(protect, allowedTo("admin"), deleteBrand);
 

@@ -16,7 +16,7 @@ const brandSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      //required: [true, "Brand image is required"],
+      required: [true, "Brand image is required"],
     },
   },
   {

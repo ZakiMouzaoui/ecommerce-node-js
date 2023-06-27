@@ -49,7 +49,7 @@ const productSchema = mongoose.Schema(
       ref: "Brand",
       required: true,
     },
-    coverImage: {
+    imageCover: {
       type: String,
       required: [true, "Product cover image is required"],
     },

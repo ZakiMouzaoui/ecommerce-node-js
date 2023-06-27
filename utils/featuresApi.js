@@ -45,7 +45,7 @@ class FeaturesApi {
 
   paginate(documentsLength) {
     let page = this.queryString.page * 1 || 1;
-    let limit = this.queryString.limit * 1 || 3;
+    let limit = this.queryString.limit * 1 || 30;
     let skip = (page - 1) * limit;
 
     const pagination = {};

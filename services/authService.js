@@ -5,6 +5,7 @@ const ApiError = require("./../utils/apiError");
 const generateToken = require("./../utils/generateToken");
 const sendEmail = require("./../utils/sendEmail");
 const crypto = require("crypto");
+const { sanitizeUser } = require("./../utils/sanitizeUser");
 
 exports.signup = asyncHandler(async (req, res) => {
   const newUser = await User.create(req.body);
@@ -13,7 +14,7 @@ exports.signup = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     status: "success",
-    data: newUser,
+    data: sanitizeUser(newUser),
     token,
   });
 });
@@ -40,6 +41,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    data: sanitizeUser(user),
     token,
   });
 });
