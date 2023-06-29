@@ -56,8 +56,7 @@ const productSchema = mongoose.Schema(
     images: [String],
     avgRating: {
       type: Number,
-      min: [1, "Rating must be atleast 1"],
-      max: [5, "Maximum rating is 5"],
+      default: 0,
     },
     ratingsCount: {
       type: Number,

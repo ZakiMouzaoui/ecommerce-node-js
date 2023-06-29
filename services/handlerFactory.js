@@ -51,6 +51,7 @@ exports.deleteOne = (Model) =>
     if (!document) {
       return next(new ApiError(`No document found for this id ${id}`), 404);
     }
+    document.remove();
     res.status(204).send();
   });
 
@@ -63,6 +64,6 @@ exports.updateOne = (Model) =>
     if (!document) {
       return next(new ApiError(`No document found for this id ${id}`, 404));
     }
-    await document.save();
+    document.save();
     res.status(200).json(document);
   });
