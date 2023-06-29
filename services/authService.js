@@ -166,7 +166,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   // CHANGE THE USER PASSWORD
   user.password = req.body.password;
-  user.confirmPassword = req.body.confirmPassword;
   user.passwordResetToken = undefined;
   user.passwordResetTokenExpires = undefined;
   user.passwordChangedAt = Date.now();

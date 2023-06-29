@@ -4,6 +4,9 @@ const env = require("dotenv");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
+const helmet = require("helmet");
+const cors = require("cors");
+const compression = require("compression");
 
 // IMPORTS FROM LOCAL FILES
 const databaseConn = require("./config/database");
@@ -31,7 +34,13 @@ process.on("uncaughtException", (err) => {
 const app = express();
 
 // MIDDLEWARES
+app.use(cors());
+app.options("*", cors());
+
+app.use(compression());
+
 app.use(express.json({ limit: "20kb" }));
+
 app.use(express.static(path.join(__dirname, "uploads")));
 
 const limiter = rateLimit({
@@ -57,6 +66,18 @@ app.use(
     ],
   })
 );
+
+// Add various HTTP headers
+app.use(helmet());
+
+// FORCE TO USE HTTPS
+app.use(helmet.hsts());
+
+// AGAINST CLICKJACKING
+app.use(helmet.frameguard());
+
+// XSS PROTECTION
+app.use(helmet.xssFilter());
 
 // MOUNT ROUTES
 mountRoutes(app);

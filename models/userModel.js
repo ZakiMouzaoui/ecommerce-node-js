@@ -26,17 +26,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "User password is required"],
       minLength: [6, "Too short user password"],
-      select: false,
-    },
-    confirmPassword: {
-      type: String,
-      required: [true, "Password confirm is required"],
-      validate: {
-        validator: function (val) {
-          return val == this.password;
-        },
-        message: "Passwords are not matching",
-      },
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
@@ -81,7 +70,6 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 8);
-  this.confirmPassword = undefined;
 });
 
 userSchema.methods.comparePasswordInDB = async function (pwd) {

@@ -10,7 +10,6 @@ exports.addOne = (Model) =>
 
 exports.getMany = (Model) =>
   asyncHandler(async (req, res) => {
-    console.log(req.filterObj);
     const documentsLength = await Model.countDocuments();
     const { mongooseQuery, paginationResult } = new FeaturesApi(
       Model.find(),
@@ -53,7 +52,6 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   asyncHandler(async (req, res, next) => {
-    console.log(req.body);
     id = req.params.id;
     let document = await Model.findByIdAndUpdate(id, req.body, {
       new: true,
