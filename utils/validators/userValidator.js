@@ -57,6 +57,24 @@ exports.updateUserValidator = [
   validatorMiddleware,
 ];
 
+exports.updateAccountValidator = [
+  body("name")
+    .optional()
+    .custom((name, { req }) => {
+      req.body.slug = slugify(name);
+      return true;
+    }),
+  check("email").optional().isEmail().withMessage("Invalid email address"),
+  body("phone")
+    .optional()
+    .isMobilePhone(["ar-DZ"])
+    .withMessage("Invalid phone number"),
+
+  body("profileImg").optional(),
+
+  validatorMiddleware,
+];
+
 exports.changeUserPasswordValidator = [
   check("id").isMongoId().withMessage("Invalid id format"),
   body("currentPassword")
@@ -114,14 +132,10 @@ exports.updatePasswordValidator = [
       }
       return true;
     })
-    .custom(async (val, { req }) => {
-      const user = await User.findById(req.user._id);
-      if (!user) {
-        throw new Error("No user was found with this id");
-      }
+    .custom(async (_, { req }) => {
       const isCorrectPassword = await bcrypt.compare(
         req.body.currentPassword,
-        user.password
+        req.user.password
       );
       if (!isCorrectPassword) {
         throw new Error("Incorrect current password");

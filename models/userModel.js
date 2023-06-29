@@ -52,12 +52,11 @@ const userSchema = mongoose.Schema(
     addresses: [
       {
         id: { type: mongoose.Schema.ObjectId },
-        alias: String,
-        details: String,
-        phone: String,
         city: String,
         street: String,
+        details: String,
         postalCode: String,
+        phone: String,
       },
     ],
   },

@@ -11,8 +11,12 @@ exports.addOne = (Model) =>
 exports.getMany = (Model) =>
   asyncHandler(async (req, res) => {
     const documentsLength = await Model.countDocuments();
+    let filter = {};
+    if (req.filterObj) {
+      filter = req.filterObj;
+    }
     const { mongooseQuery, paginationResult } = new FeaturesApi(
-      Model.find(),
+      Model.find(filter),
       req.query
     )
       .paginate(documentsLength)

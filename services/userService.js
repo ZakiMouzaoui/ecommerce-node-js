@@ -30,7 +30,15 @@ exports.resizeImage = asyncHandler(async (req, res, next) => {
 });
 
 // USER
-exports.updateLoggedUserData = asyncHandler(async (req, res) => {});
+exports.updateLoggedUserData = asyncHandler(async (req, res) => {
+  let user = await User.findByIdAndUpdate(req.user._id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json({
+    data: sanitizeUser(user),
+  });
+});
 
 exports.updateLoggedUserPassword = asyncHandler(async (req, res, next) => {
   let user = await User.findByIdAndUpdate(
@@ -55,7 +63,20 @@ exports.getLoggedUserData = asyncHandler(async (req, res, next) => {
   next();
 });
 
-exports.deleteLoggedUserData = asyncHandler(async (req, res, next) => {});
+exports.deleteLoggedUserData = asyncHandler(async (req, res, next) => {
+  let user = User.findByIdAndUpdate(
+    req.user._id,
+    {
+      active: false,
+    },
+    {
+      new: true,
+    }
+  );
+  res.status(204).json({
+    status: "Success",
+  });
+});
 
 // ADMIN
 exports.getUsers = factory.getMany(User);

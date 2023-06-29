@@ -24,6 +24,7 @@ const {
   changeUserPasswordValidator,
   updateUserValidator,
   updatePasswordValidator,
+  updateAccountValidator,
 } = require("../utils/validators/userValidator");
 
 const router = express.Router();
@@ -31,10 +32,16 @@ const router = express.Router();
 // USER ROUTES
 router.use(protect);
 
-router.get("/myAccount", getLoggedUserData);
-router.put("/updateAccount", updateLoggedUserData);
+router.get("/account", getLoggedUserData);
 router.put(
-  "/changeMyPassword",
+  "/updateAccount",
+  uploadUserImage,
+  resizeImage,
+  updateAccountValidator,
+  updateLoggedUserData
+);
+router.put(
+  "/changePassword",
   updatePasswordValidator,
   updateLoggedUserPassword
 );
@@ -46,7 +53,7 @@ router.use(allowedTo("admin", "manager"));
 router
   .route("/")
   .get(getUsers)
-  .post(createUserValidator, applySlug, uploadUserImage, resizeImage, addUser);
+  .post(uploadUserImage, resizeImage, createUserValidator, applySlug, addUser);
 router.put(
   "/changePassword/:id",
   changeUserPasswordValidator,
@@ -54,7 +61,7 @@ router.put(
 );
 router
   .route("/:id")
-  .get(getUserValidator, getUser)
+  .get(uploadUserImage, resizeImage, getUserValidator, getUser)
   .put(
     getUserValidator,
     updateUserValidator,

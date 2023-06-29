@@ -2,8 +2,8 @@ const Brand = require("../models/brandModel");
 const factory = require("./handlerFactory");
 const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
 const { v4: uuidv4 } = require("uuid");
-const sharp = require("sharp")
-const asyncHandler = require('express-async-handler');
+const sharp = require("sharp");
+const asyncHandler = require("express-async-handler");
 
 // UPLOAD SINGLE IMAGE
 exports.uploadBrandImage = uploadSingleImage("image");
@@ -12,19 +12,18 @@ exports.uploadBrandImage = uploadSingleImage("image");
 exports.resizeImage = asyncHandler(async (req, res, next) => {
   const filename = `brand-${uuidv4()}-${Date.now()}.jpeg`;
 
-  if(req.file){
+  if (req.file) {
     await sharp(req.file.buffer)
-    .resize(600, 600)
-    .toFormat('jpeg')
-    .jpeg({ quality: 95 })
-    .toFile(`uploads/brands/${filename}`);
+      .resize(600, 600)
+      .toFormat("jpeg")
+      .jpeg({ quality: 95 })
+      .toFile(`uploads/brands/${filename}`);
 
-  req.body.image = filename;
+    req.body.image = filename;
   }
 
   next();
 });
-
 
 exports.getBrands = factory.getMany(Brand);
 

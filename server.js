@@ -7,6 +7,7 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 const cors = require("cors");
 const compression = require("compression");
+const busboy = require("connect-busboy");
 
 // IMPORTS FROM LOCAL FILES
 const databaseConn = require("./config/database");
