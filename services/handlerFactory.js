@@ -35,7 +35,14 @@ exports.getMany = (Model) =>
 exports.getOne = (Model) =>
   asyncHandler(async (req, res, next) => {
     const id = req.params.id;
-    const document = await Model.findById(id);
+
+    if (!req.filterObj) {
+      req.filterObj = {};
+    }
+
+    req.filterObj._id = id;
+
+    const document = await Model.findOne(req.filterObj);
 
     if (!document) {
       return next(new ApiError(`No document found for this id ${id}`), 404);

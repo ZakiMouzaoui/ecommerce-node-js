@@ -116,27 +116,28 @@ exports.removeItemFromCart = asyncHandler(async (req, res, next) => {
 exports.getUserCart = asyncHandler(async (req, res, next) => {
   const cart = await Cart.findOne({ user: req.user._id });
 
-  calcTotalCartPriceAndTotalItems(cart);
-  res.status(200).json({
-    data: cart.cartItems,
-    totalItems: cart.totalCartItems,
-    totalCartPrice: cart.totalCartPrice,
-  });
+  if (!cart) {
+    res.status(200).json({
+      data: [],
+      totalItems: 0,
+      totalCartPrice: 0,
+    });
+  } else {
+    res.status(200).json({
+      data: cart.cartItems,
+      cartId: cart._id,
+      totalItems: cart.totalCartItems,
+      totalCartPrice: cart.totalCartPrice,
+    });
+  }
 });
 
+exports.applyCoupon = asyncHandler(async (req, res, next) => {});
+
 exports.clearUserCart = asyncHandler(async (req, res, next) => {
-  const cart = await Cart.findOneAndUpdate(
-    { user: req.user._id },
-    {
-      cartItems: [],
-      totalcartItems: 0,
-      totalCartPrice: 0,
-      totalCartPriceAfterDiscount: 0,
-    }
-  );
+  const cart = await Cart.findOneAndDelete({ user: req.user._id });
 
   res.status(204).json({
-    data: cart.cartItems,
     totalItems: [],
     totalPrice: 0,
   });

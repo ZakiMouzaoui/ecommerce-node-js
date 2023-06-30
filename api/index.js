@@ -8,6 +8,8 @@ const addressApi = require("./addressApi");
 const reviewApi = require("./reviewApi");
 const wishlistApi = require("./wishlistApi");
 const cartApi = require("./cartApi");
+const couponApi = require("./couponApi");
+const orderApi = require("./orderApi");
 
 const mountRoutes = (app) => {
   app.use("/api/v1/categories", categoryApi);
@@ -20,6 +22,8 @@ const mountRoutes = (app) => {
   app.use("/api/v1/reviews", reviewApi);
   app.use("/api/v1/wishlist", wishlistApi);
   app.use("/api/v1/cart", cartApi);
+  app.use("/api/v1/coupons", couponApi);
+  app.use("/api/v1/orders", orderApi);
 };
 
 module.exports = mountRoutes;
