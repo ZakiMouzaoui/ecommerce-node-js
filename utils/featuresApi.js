@@ -43,23 +43,50 @@ class FeaturesApi {
     return this;
   }
 
-  paginate(documentsLength) {
+  // async paginate() {
+  //   let page = this.queryString.page * 1 || 1;
+  //   let limit = this.queryString.limit * 1 || 4;
+  //   let skip = (page - 1) * limit;
+
+  //   const pagination = {};
+  //   const documentsLength = await this.mongooseQuery.countDocuments();
+  //   pagination.totalPages = Math.ceil(documentsLength / limit);
+
+  //   // if (skip > 0) {
+  //   //   pagination.previousPage = page - 1;
+  //   // }
+  //   // if (page * limit < documentsLength) {
+  //   //   pagination.nextPage = page + 1;
+  //   // }
+
+  //   this.mongooseQuery = this.mongooseQuery.skip(skip).limit(limit);
+
+  //   this.paginationResult = pagination;
+
+  //   return this;
+  // }
+
+  async paginate() {
     let page = this.queryString.page * 1 || 1;
-    let limit = this.queryString.limit * 1 || 30;
+    let limit = this.queryString.limit * 1 || 4;
     let skip = (page - 1) * limit;
 
+    const countQuery = this.mongooseQuery.model.find(
+      this.mongooseQuery.getQuery()
+    );
+    const filteredDocumentsCount = await countQuery.countDocuments();
+
     const pagination = {};
-    pagination.totalPages = Math.ceil(documentsLength / limit);
+    pagination.totalPages = Math.ceil(filteredDocumentsCount / limit);
 
     if (skip > 0) {
       pagination.previousPage = page - 1;
     }
-    if (page * limit < documentsLength) {
+    if (page * limit < filteredDocumentsCount) {
       pagination.nextPage = page + 1;
     }
 
     this.mongooseQuery = this.mongooseQuery.skip(skip).limit(limit);
-
     this.paginationResult = pagination;
 
     return this;

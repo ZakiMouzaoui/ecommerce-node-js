@@ -45,14 +45,14 @@ app.use(express.json({ limit: "20kb" }));
 app.use(express.static(path.join(__dirname, "uploads")));
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 5 * 60 * 1000, // 15 minutes
   max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  message: "Too many requests, please try again in 15 minutes",
+  message: "Too many requests, please try again in 5 minutes",
 });
 // Apply the rate limiting middleware to all requests
-app.use("/api/v1/auth", limiter);
+// app.use("/api/v1/auth", limiter);
 
 // TO PREVENT HTTP POLLUTION
 app.use(

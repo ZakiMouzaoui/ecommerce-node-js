@@ -11,7 +11,10 @@ const {
 
 const { protect, allowedTo } = require("./../services/authService");
 
-const { updateBrandValidator } = require("../utils/validators/brandValidator");
+const {
+  createBrandValidator,
+  updateBrandValidator,
+} = require("../utils/validators/brandValidator");
 
 const router = express.Router();
 
@@ -23,6 +26,7 @@ router
     allowedTo("admin", "manager"),
     uploadBrandImage,
     resizeImage,
+    createBrandValidator,
     addBrand
   );
 router

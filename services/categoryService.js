@@ -14,7 +14,11 @@ exports.resizeImage = asyncHandler(async (req, res, next) => {
 
   if (req.file) {
     await sharp(req.file.buffer)
-      .resize(600, 600)
+      .resize(600, 600, {
+        fit: "fill",
+        withoutEnlargement: true,
+      })
+      .flatten({ background: "#f9f9f9" })
       .toFormat("jpeg")
       .jpeg({ quality: 95 })
       .toFile(`uploads/categories/${filename}`);

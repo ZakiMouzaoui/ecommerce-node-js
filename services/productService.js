@@ -21,19 +21,20 @@ exports.uploadProductMultipleImages = uploadMixOfImages([
 // IMAGE RROCESSING
 exports.resizeProductImages = asyncHandler(async (req, res, next) => {
   //1- Image processing for imageCover
+  console.log(req.files);
   if (req.files) {
     if (req.files.imageCover) {
       const imageCoverFileName = `product-${uuidv4()}-${Date.now()}-cover.jpeg`;
 
       await sharp(req.files.imageCover[0].buffer)
-        .resize(2000, 1333)
+        .resize(2000, 1333, { fit: "fill" })
+        .flatten({ background: "#ffffff" })
         .toFormat("jpeg")
         .jpeg({ quality: 95 })
         .toFile(`uploads/products/${imageCoverFileName}`);
 
       req.body.imageCover = imageCoverFileName;
     }
-    //2- Image processing for multiple images
     if (req.files.images) {
       req.body.images = [];
       await Promise.all(
@@ -43,12 +44,12 @@ exports.resizeProductImages = asyncHandler(async (req, res, next) => {
           }.jpeg`;
 
           await sharp(img.buffer)
-            .resize(2000, 1333)
+            .resize(2000, 1333, { fit: "fill" })
+            .flatten({ background: "#ffffff" })
             .toFormat("jpeg")
             .jpeg({ quality: 95 })
             .toFile(`uploads/products/${imageName}`);
 
-          // Save image into our db
           req.body.images.push(imageName);
         })
       );

@@ -10,22 +10,25 @@ exports.addOne = (Model) =>
 
 exports.getMany = (Model) =>
   asyncHandler(async (req, res) => {
-    const documentsLength = await Model.countDocuments();
     let filter = {};
     if (req.filterObj) {
       filter = req.filterObj;
     }
-    const { mongooseQuery, paginationResult } = new FeaturesApi(
+
+    const { mongooseQuery, paginationResult } = await new FeaturesApi(
       Model.find(filter),
       req.query
     )
-      .paginate(documentsLength)
       .search()
       .filter()
       .sort()
-      .select();
+      .select()
+      .paginate();
 
     const documents = await mongooseQuery;
+    // const docCount = documents.length;
+
+    // paginationResult.totalPages = Math.ceil(docCount / paginationResult.limit);
 
     res
       .status(200)
